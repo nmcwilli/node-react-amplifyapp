@@ -37,3 +37,22 @@
     transform: rotate(360deg);
   }
 }
+
+.expanded-view {
+  background-color: #f0f0f0;
+  padding: 10px;
+  margin-top: 20px;
+}
+
+.add-note-bar {
+  border: 1px solid #ccc;
+  background-color: #f0f0f0;
+  padding: 10px;
+  margin-top: 20px;
+}
+
+.Submit-button{
+  background-color: blue;
+  border: blue;
+  color: #FFF;
+}

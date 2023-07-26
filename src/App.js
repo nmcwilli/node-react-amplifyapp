@@ -23,10 +23,17 @@ import {
 
 const App = ({ signOut }) => {
   const [notes, setNotes] = useState([]);
+  const [isExpanded, setIsExpanded] = useState(false);
 
+  /* Fetch the notes */
   useEffect(() => {
     fetchNotes();
   }, []);
+
+  /* Toggle expansion */
+  const toggleExpansion = () => {
+    setIsExpanded((prevExpanded) => !prevExpanded);
+  };
 
   async function fetchNotes() {
     const apiData = await API.graphql({ query: listNotes });
@@ -73,46 +80,56 @@ const App = ({ signOut }) => {
 
   return (
     <View className="App">
-      <Heading level={1}>My Notes</Heading>
-      <View as="form" margin="3rem 0" onSubmit={createNote}>
-        <Flex direction="column" justifyContent="center">
-          <TextField
-            name="name"
-            placeholder="Note Title"
-            label="Note Name"
-            style={{ width: '100%' }}
-            class="Text-input-name"
-            labelHidden
-            variation="quiet"
-            required
-          />
-          <TextAreaField
-            name="description"
-            placeholder="Note Description"
-            label="Note Description"
-            style={{ flex: 1 }}
-            class="Text-area-note"
-            labelHidden
-            variation="quiet"
-            rows={8}
-            required
-          />
-          <View
-            name="image"
-            as="input"
-            type="file"
-            style={{ flex: 1 }}
-          />
-          <Button 
-            type="submit" 
-            style={{ flex: 1 }}
-            class="Submit-button"
-            variation="primary">
-            Create Note
-          </Button>
-        </Flex>
-      </View>
-      <Heading level={2}>Current Notes</Heading>
+      <br />
+      <Heading level={1}>Simple Notes</Heading>
+      <br />
+      <button onClick={toggleExpansion}>
+        {isExpanded ? 'Collapse View' : 'Add new note'}
+      </button>
+      {isExpanded && (
+        <View as="form" margin="3rem 0" onSubmit={createNote}>
+          <div className="expanded-view">
+            <Flex direction="column" justifyContent="center">
+              <TextField
+                name="name"
+                placeholder="Note Title"
+                label="Note Name"
+                style={{ width: '100%' }}
+                class="Text-input-name"
+                labelHidden
+                variation="quiet"
+                required
+              />
+              <TextAreaField
+                name="description"
+                placeholder="Note Description"
+                label="Note Description"
+                style={{ flex: 1 }}
+                class="Text-area-note"
+                labelHidden
+                variation="quiet"
+                rows={8}
+                required
+              />
+              <View
+                name="image"
+                as="input"
+                type="file"
+                style={{ flex: 1 }}
+              />
+              <Button 
+                type="submit" 
+                style={{ flex: 1 }}
+                class="Submit-button"
+                variation="primary">
+                Create Note
+              </Button>
+            </Flex>
+          </div>
+        </View>
+      )}
+      <br />
+      <Heading level={2}><br />Current Notes</Heading>
       <View margin="3rem 0">
         {notes.map((note) => (
           <Flex
