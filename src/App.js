@@ -111,48 +111,54 @@ const App = ({ signOut }) => {
                 rows={8}
                 required
               />
-              <View
-                name="image"
-                as="input"
-                type="file"
-                style={{ flex: 1 }}
-              />
-              <Button 
-                type="submit" 
-                style={{ flex: 1 }}
-                class="Submit-button"
-                variation="primary">
-                Create Note
-              </Button>
+              <div>
+                <View
+                  name="image"
+                  as="input"
+                  type="file"
+                  style={{ flex: 1 }}
+                />
+              </div>
+              <div>
+                <Button 
+                  type="submit" 
+                  style={{ flex: 1 }}
+                  class="Submit-button"
+                  variation="primary">
+                  Create Note
+                </Button>
+              </div>
             </Flex>
           </div>
         </View>
       )}
       <br />
-      <Heading level={2}><br />Current Notes</Heading>
+      <Heading level={2}><br />My Notes</Heading>
       <View margin="3rem 0">
         {notes.map((note) => (
-          <Flex
-            key={note.id || note.name}
-            direction="row"
-            justifyContent="center"
-            alignItems="center"
-          >
-            <Text as="strong" fontWeight={700}>
-              {note.name}
-            </Text>
-            <Text as="span">{note.description}</Text>
-            {note.image && (
-              <Image
-                src={note.image}
-                alt={`visual aid for ${notes.name}`}
-                style={{ width: 400 }}
-              />
-            )}
-            <Button variation="link" onClick={() => deleteNote(note)}>
-              Delete note
-            </Button>
-          </Flex>
+          <div className="note-container">
+            <Flex
+              key={note.id || note.name}
+              direction="column"
+              justifyContent="center"
+              alignItems="center"
+            >
+              <Text as="strong" fontWeight={700}>
+                {note.name}
+              </Text>
+              <Text as="span">{note.description}</Text>
+              {note.image && (
+                <Image
+                  src={note.image}
+                  alt={`visual aid for ${note.name}`}
+                  style={{ width: 400 }}
+                />
+              )}
+              <Button variation="link" onClick={() => deleteNote(note)}>
+                [x]
+              </Button>
+            </Flex>
+          </div>
         ))}
       </View>
       <Button onClick={signOut}>Sign Out</Button>

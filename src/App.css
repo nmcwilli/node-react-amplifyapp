@@ -56,3 +56,11 @@
   border: blue;
   color: #FFF;
 }
+
+.note-container {
+  max-width: 300px;
+  margin: 10px;
+  background-color: #efefef;
+  border-radius: 15px;
+  padding: 20px;
+}
