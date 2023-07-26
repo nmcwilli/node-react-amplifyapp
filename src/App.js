@@ -22,13 +22,25 @@ import {
 } from "./graphql/mutations";
 
 const App = ({ signOut }) => {
-  const [notes, setNotes] = useState([]);
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [notes, setNotes] = useState([]); 
+  const [isExpanded, setIsExpanded] = useState(false); // Track whether Notes expanded 
+  const [editingNoteId, setEditingNoteId] = useState(null); // Track the note being edited
 
   /* Fetch the notes */
   useEffect(() => {
     fetchNotes();
   }, []);
+
+  // Function to handle inline note editing
+  const handleNoteEdit = (noteId) => {
+    setEditingNoteId(noteId);
+  };
+
+  // Function to handle saving the edited note
+  const handleNoteSave = async (noteId) => {
+    // Implement your logic to save the edited note content to the server if needed
+    setEditingNoteId(null); // Stop editing mode after saving
+  };
 
   /* Toggle expansion */
   const toggleExpansion = () => {
@@ -136,17 +148,37 @@ const App = ({ signOut }) => {
       <Heading level={2}><br />My Notes</Heading>
       <View className="notes-container" margin="3rem 0">
         {notes.map((note) => (
-          <div className="note-container">
+          <div className="note-container" key={note.id || note.name}>
             <Flex
-              key={note.id || note.name}
               direction="column"
               justifyContent="center"
               alignItems="center"
+              onClick={() => handleNoteEdit(note.id)} // Enable editing mode on click
             >
               <Text as="strong" fontWeight={700}>
-                {note.name}
+                {editingNoteId === note.id ? ( // Render editable content if in editing mode
+                  <TextField
+                    name="name"
+                    defaultValue={note.name}
+                    // Add appropriate TextField props and styles for editing
+                  />
+                ) : (
+                  // Render normal text if not in editing mode
+                  note.name
+                )}
               </Text>
-              <Text as="span">{note.description}</Text>
+              <Text as="span">
+                {editingNoteId === note.id ? ( // Render editable content if in editing mode
+                  <TextAreaField
+                    name="description"
+                    defaultValue={note.description}
+                    // Add appropriate TextAreaField props and styles for editing
+                  />
+                ) : (
+                  // Render normal text if not in editing mode
+                  note.description
+                )}
+              </Text>
               {note.image && (
                 <Image
                   src={note.image}
@@ -157,6 +189,11 @@ const App = ({ signOut }) => {
               <Button variation="link" onClick={() => deleteNote(note)}>
                 [x]
               </Button>
+              {editingNoteId === note.id && ( // Show Save button when in editing mode
+                <Button variation="primary" onClick={() => handleNoteSave(note.id)}>
+                  Save
+                </Button>
+              )}
             </Flex>
           </div>
         ))}
