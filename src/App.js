@@ -59,13 +59,15 @@ const App = ({ signOut }) => {
 
   return (
     <View className="App">
-      <Heading level={1}>My Notes App</Heading>
+      <Heading level={1}>My Notes</Heading>
       <View as="form" margin="3rem 0" onSubmit={createNote}>
-        <Flex direction="row" justifyContent="center">
+        <Flex direction="column" justifyContent="center">
           <TextField
             name="name"
-            placeholder="Note Name"
+            placeholder="Note Title"
             label="Note Name"
+            style={{ width: '100%' }}
+            class="Text-input-name"
             labelHidden
             variation="quiet"
             required
@@ -74,12 +76,18 @@ const App = ({ signOut }) => {
             name="description"
             placeholder="Note Description"
             label="Note Description"
+            style={{ flex: 1 }}
+            class="Text-area-note"
             labelHidden
             variation="quiet"
             rows={8}
             required
           />
-          <Button type="submit" variation="primary">
+          <Button 
+            type="submit" 
+            style={{ flex: 1 }}
+            class="Submit-button"
+            variation="primary">
             Create Note
           </Button>
         </Flex>
