@@ -7,11 +7,14 @@ import {
   Flex,
   Heading,
   Text,
+  TextAreaField,
   TextField,
   View,
   withAuthenticator,
 } from "@aws-amplify/ui-react";
-import { listNotes } from "./graphql/queries";
+import { 
+  listNotes 
+} from "./graphql/queries";
 import {
   createNote as createNoteMutation,
   deleteNote as deleteNoteMutation,
@@ -67,12 +70,13 @@ const App = ({ signOut }) => {
             variation="quiet"
             required
           />
-          <TextField
+          <TextAreaField
             name="description"
             placeholder="Note Description"
             label="Note Description"
             labelHidden
             variation="quiet"
+            rows={8}
             required
           />
           <Button type="submit" variation="primary">
