@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 import "@aws-amplify/ui-react/styles.css";
-import { API } from "aws-amplify";
+import { API, Storage } from 'aws-amplify';
 import {
   Button,
   Flex,
   Heading,
+  Image,
   Text,
   TextAreaField,
   TextField,
@@ -30,6 +31,15 @@ const App = ({ signOut }) => {
   async function fetchNotes() {
     const apiData = await API.graphql({ query: listNotes });
     const notesFromAPI = apiData.data.listNotes.items;
+    await Promise.all(
+      notesFromAPI.map(async (note) => {
+        if (note.image) {
+          const url = await Storage.get(note.name);
+          note.image = url;
+        }
+        return note;
+      })
+    );
     setNotes(notesFromAPI);
   }
 
