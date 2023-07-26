@@ -17,6 +17,9 @@
       },
       "api": {
         "nodereactamplifyapp": {}
+      },
+      "storage": {
+        "imagestore": {}
       }
     }
   }
