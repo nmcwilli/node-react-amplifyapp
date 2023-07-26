@@ -134,7 +134,7 @@ const App = ({ signOut }) => {
       )}
       <br />
       <Heading level={2}><br />My Notes</Heading>
-      <View margin="3rem 0">
+      <View className="notes-container" margin="3rem 0">
         {notes.map((note) => (
           <div className="note-container">
             <Flex
