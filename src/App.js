@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 import "@aws-amplify/ui-react/styles.css";
-import { API, Storage } from 'aws-amplify';
+import { API, Storage, Auth } from 'aws-amplify';
 import {
   Button,
   Flex,
@@ -48,21 +48,38 @@ const App = ({ signOut }) => {
     setIsExpanded((prevExpanded) => !prevExpanded);
   };
 
+  /* Fetch all the notes for the current authenticated user */
   async function fetchNotes() {
-    const apiData = await API.graphql({ query: listNotes });
-    const notesFromAPI = apiData.data.listNotes.items;
-    await Promise.all(
-      notesFromAPI.map(async (note) => {
-        if (note.image) {
-          const url = await Storage.get(note.name);
-          note.image = url;
-        }
-        return note;
-      })
-    );
-    setNotes(notesFromAPI);
+    try {
+      // Check if the user is authenticated
+      const user = await Auth.currentAuthenticatedUser();
+
+      // Fetch notes from the API
+      const apiData = await API.graphql({ query: listNotes });
+      const notesFromAPI = apiData.data.listNotes.items;
+
+      // Filter the notes to only include those created by the current user
+      const userNotes = notesFromAPI.filter(note => note.owner === user.username);
+
+      // Fetch image URLs for notes that have images
+      await Promise.all(
+        userNotes.map(async (note) => {
+          if (note.image) {
+            const url = await Storage.get(note.name);
+            note.image = url;
+          }
+          return note;
+        })
+      );
+
+      setNotes(userNotes);
+    } catch (error) {
+      // Handle any errors that occur during the fetch
+      console.error('Error fetching notes:', error);
+    }
   }
 
+  /* Create note function */
   async function createNote(event) {
     event.preventDefault();
     const form = new FormData(event.target);
@@ -72,15 +89,32 @@ const App = ({ signOut }) => {
       description: form.get("description"),
       image: image.name,
     };
-    if (!!data.image) await Storage.put(data.name, image);
-    await API.graphql({
-      query: createNoteMutation,
-      variables: { input: data },
-    });
-    fetchNotes();
-    event.target.reset();
-  }  
+  
+    try {
+      // Get the currently authenticated user
+      const user = await Auth.currentAuthenticatedUser();
+  
+      // Set the owner field to the user's username
+      data.owner = user.username;
+  
+      // Upload the image if available
+      if (!!data.image) await Storage.put(data.name, image);
+  
+      // Create the note using the API
+      await API.graphql({
+        query: createNoteMutation,
+        variables: { input: data },
+      });
+  
+      // Fetch updated notes and reset the form
+      fetchNotes();
+      event.target.reset();
+    } catch (error) {
+      console.error('Error creating note:', error);
+    }
+  }
 
+  /* Delete note function */
   async function deleteNote({ id, name }) {
     const newNotes = notes.filter((note) => note.id !== id);
     setNotes(newNotes);
@@ -108,7 +142,7 @@ const App = ({ signOut }) => {
                 placeholder="Note Title"
                 label="Note Name"
                 style={{ width: '100%' }}
-                class="Text-input-name"
+                className="Text-input-name"
                 labelHidden
                 variation="quiet"
                 required
@@ -118,7 +152,7 @@ const App = ({ signOut }) => {
                 placeholder="Note Description"
                 label="Note Description"
                 style={{ flex: 1 }}
-                class="Text-area-note"
+                className="Text-area-note"
                 labelHidden
                 variation="quiet"
                 rows={8}
@@ -136,7 +170,7 @@ const App = ({ signOut }) => {
                 <Button 
                   type="submit" 
                   style={{ flex: 1 }}
-                  class="Submit-button"
+                  className="Submit-button"
                   variation="primary">
                   Create Note
                 </Button>
