@@ -14,7 +14,7 @@ import {
   withAuthenticator,
 } from "@aws-amplify/ui-react";
 import { 
-  listNotes 
+  listNotes  
 } from "./graphql/queries";
 import {
   createNote as createNoteMutation,
