@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./App.css";
 import "@aws-amplify/ui-react/styles.css";
 import { API, Storage, Auth } from 'aws-amplify';
+import { Helmet } from "react-helmet"; // Import Helmet
 import {
   Button,
   Flex,
@@ -126,115 +127,123 @@ const App = ({ signOut }) => {
   }
 
   return (
-    <View className="App">
-      <br />
-      <Heading level={1}>Simple Notes</Heading>
-      <br />
-      <button onClick={toggleExpansion}>
-        {isExpanded ? 'Stop adding new note' : 'Add new note'}
-      </button>
-      {isExpanded && (
-        <View as="form" margin="3rem 0" onSubmit={createNote}>
-          <div className="expanded-view">
-            <Flex direction="column" justifyContent="center">
-              <TextField
-                name="name"
-                placeholder="Note Title"
-                label="Note Name"
-                style={{ width: '100%', textAlign: 'left' }}
-                className="Text-input-name"
-                labelHidden
-                variation="quiet"
-                required
-              />
-              <TextAreaField
-                name="description"
-                placeholder="Note Description"
-                label="Note Description"
-                style={{ flex: 1, textAlign: 'left' }}
-                className="Text-area-note"
-                labelHidden
-                variation="quiet"
-                rows={8}
-                required
-              />
-              <div>
-                <View
-                  name="image"
-                  as="input"
-                  type="file"
-                  style={{ flex: 1 }}
+    <>
+      {/* Set the page title using Helmet */}
+      <Helmet>
+        <title>Simple Notes App</title>
+      </Helmet>
+
+      <View className="App">
+        <br />
+        <Heading level={1}>Simple Notes</Heading>
+        <br />
+        <button onClick={toggleExpansion}>
+          {isExpanded ? 'Stop adding new note' : 'Add new note'}
+        </button>
+        {isExpanded && (
+          <View as="form" margin="3rem 0" onSubmit={createNote}>
+            <div className="expanded-view">
+              <Flex direction="column" justifyContent="center">
+                <TextField
+                  name="name"
+                  placeholder="Note Title"
+                  label="Note Name"
+                  style={{ width: '100%', textAlign: 'left' }}
+                  className="Text-input-name"
+                  labelHidden
+                  variation="quiet"
+                  required
                 />
-              </div>
-              <div>
-                <Button 
-                  type="submit" 
-                  style={{ flex: 1 }}
-                  className="Submit-button"
-                  variation="primary">
-                  Create Note
+                <TextAreaField
+                  name="description"
+                  placeholder="Note Description"
+                  label="Note Description"
+                  style={{ flex: 1, textAlign: 'left' }}
+                  className="Text-area-note"
+                  labelHidden
+                  variation="quiet"
+                  rows={8}
+                  required
+                />
+                <div>
+                  <View
+                    name="image"
+                    as="input"
+                    type="file"
+                    style={{ flex: 1 }}
+                  />
+                </div>
+                <div>
+                  <Button 
+                    type="submit" 
+                    style={{ flex: 1 }}
+                    className="Submit-button"
+                    variation="primary">
+                    Create Note
+                  </Button>
+                </div>
+              </Flex>
+            </div>
+          </View>
+        )}
+        <br />
+        <Heading level={2}><br />My Notes</Heading>
+        <View className="notes-container" margin="3rem 0">
+          {notes.map((note) => (
+            <div className="note-container" key={note.id || note.name}>
+              <Flex
+                direction="column"
+                justifyContent="center"
+                alignItems="center"
+                onClick={() => handleNoteEdit(note.id)} // Enable editing mode on click
+              >
+                <Text as="strong" fontWeight={700}>
+                  {editingNoteId === note.id ? ( // Render editable content if in editing mode
+                    <TextField
+                      name="name"
+                      defaultValue={note.name}
+                      // Add appropriate TextField props and styles for editing
+                    />
+                  ) : (
+                    // Render normal text if not in editing mode
+                    note.name
+                  )}
+                </Text>
+                <Text as="span">
+                  {editingNoteId === note.id ? ( // Render editable content if in editing mode
+                    <TextAreaField
+                      name="description"
+                      defaultValue={note.description}
+                      // Add appropriate TextAreaField props and styles for editing
+                    />
+                  ) : (
+                    // Render normal text if not in editing mode
+                    note.description
+                  )}
+                </Text>
+                {note.image && (
+                  <Image
+                    src={note.image}
+                    alt={`visual aid for ${note.name}`}
+                    style={{ width: 400 }}
+                  />
+                )}
+                <Button variation="link" onClick={() => deleteNote(note)}>
+                  [x]
                 </Button>
-              </div>
-            </Flex>
-          </div>
+                {editingNoteId === note.id && ( // Show Save button when in editing mode
+                  <Button variation="primary" onClick={() => handleNoteSave(note.id)}>
+                    Save
+                  </Button>
+                )}
+              </Flex>
+            </div>
+          ))}
         </View>
-      )}
-      <br />
-      <Heading level={2}><br />My Notes</Heading>
-      <View className="notes-container" margin="3rem 0">
-        {notes.map((note) => (
-          <div className="note-container" key={note.id || note.name}>
-            <Flex
-              direction="column"
-              justifyContent="center"
-              alignItems="center"
-              onClick={() => handleNoteEdit(note.id)} // Enable editing mode on click
-            >
-              <Text as="strong" fontWeight={700}>
-                {editingNoteId === note.id ? ( // Render editable content if in editing mode
-                  <TextField
-                    name="name"
-                    defaultValue={note.name}
-                    // Add appropriate TextField props and styles for editing
-                  />
-                ) : (
-                  // Render normal text if not in editing mode
-                  note.name
-                )}
-              </Text>
-              <Text as="span">
-                {editingNoteId === note.id ? ( // Render editable content if in editing mode
-                  <TextAreaField
-                    name="description"
-                    defaultValue={note.description}
-                    // Add appropriate TextAreaField props and styles for editing
-                  />
-                ) : (
-                  // Render normal text if not in editing mode
-                  note.description
-                )}
-              </Text>
-              {note.image && (
-                <Image
-                  src={note.image}
-                  alt={`visual aid for ${note.name}`}
-                  style={{ width: 400 }}
-                />
-              )}
-              <Button variation="link" onClick={() => deleteNote(note)}>
-                [x]
-              </Button>
-              {editingNoteId === note.id && ( // Show Save button when in editing mode
-                <Button variation="primary" onClick={() => handleNoteSave(note.id)}>
-                  Save
-                </Button>
-              )}
-            </Flex>
-          </div>
-        ))}
+        <Button onClick={signOut}>Sign Out</Button>
       </View>
-      <Button onClick={signOut}>Sign Out</Button>
-    </View>
+
+    </>
   );
 };
 
