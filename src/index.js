@@ -5,7 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Auth, Amplify } from 'aws-amplify';
 import config from './aws-exports';
-import { ApolloClient, ApolloProvider, InMemoryCache, createHttpLink, gql } from "@apollo/client" // Apollo integration
+import { ApolloClient, ApolloProvider, InMemoryCache, createHttpLink, gql, from } from "@apollo/client" // Apollo integration
 import { setContext } from "@apollo/client/link/context";
 Amplify.configure(config);
 
@@ -27,6 +27,7 @@ const authLink = setContext(async (_, { headers }) => {
   };
 });
 
+// Apollo client  
 const client = new ApolloClient({
   link: authLink.concat(httpLink),
   cache: new InMemoryCache(),

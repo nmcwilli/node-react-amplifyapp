@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./App.css";
 import "@aws-amplify/ui-react/styles.css";
 import { API, Storage, Auth } from 'aws-amplify';
-import { Helmet } from "react-helmet"; // Import Helmet
+import { Helmet } from "react-helmet"; // Helmet
 import {
   Button,
   Flex,
