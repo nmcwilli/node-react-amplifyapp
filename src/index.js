@@ -11,6 +11,7 @@ Amplify.configure(config);
 
 const httpLink = createHttpLink({
   uri: "https://awtbiphmbjefzla4jz4h37r67y.appsync-api.ca-central-1.amazonaws.com/graphql",
+  // uri: "http://localhost:3000/", 
 });
 
 const authLink = setContext(async (_, { headers }) => {
