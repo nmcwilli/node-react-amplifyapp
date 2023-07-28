@@ -3,15 +3,34 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { Amplify } from 'aws-amplify';
+import { Auth, Amplify } from 'aws-amplify';
 import config from './aws-exports';
-import { ApolloClient, ApolloProvider, InMemoryCache, gql } from "@apollo/client" // Apollo integration
+import { ApolloClient, ApolloProvider, InMemoryCache, createHttpLink, gql } from "@apollo/client" // Apollo integration
+import { setContext } from "@apollo/client/link/context";
 Amplify.configure(config);
 
+const httpLink = createHttpLink({
+  uri: "https://awtbiphmbjefzla4jz4h37r67y.appsync-api.ca-central-1.amazonaws.com/graphql",
+});
+
+const authLink = setContext(async (_, { headers }) => {
+  // Get the Cognito user access token after successful authentication
+  const session = await Auth.currentSession();
+  const accessToken = session.getAccessToken().getJwtToken();
+
+  // Set the Authorization header with the access token
+  return {
+    headers: {
+      ...headers,
+      Authorization: `Bearer ${accessToken}`,
+    },
+  };
+});
+
 const client = new ApolloClient({
-  uri: "https://awtbiphmbjefzla4jz4h37r67y.appsync-api.ca-central-1.amazonaws.com/graphql", 
-  cache: new InMemoryCache(), 
-})
+  link: authLink.concat(httpLink),
+  cache: new InMemoryCache(),
+});
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
