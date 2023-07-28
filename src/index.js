@@ -5,13 +5,13 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Auth, Amplify } from 'aws-amplify';
 import config from './aws-exports';
-import { ApolloClient, ApolloProvider, InMemoryCache, createHttpLink, gql, from } from "@apollo/client" // Apollo integration
+import { ApolloClient, ApolloProvider, InMemoryCache, createHttpLink } from "@apollo/client" // Apollo integration
 import { setContext } from "@apollo/client/link/context";
 Amplify.configure(config);
 
 const httpLink = createHttpLink({
   uri: "https://awtbiphmbjefzla4jz4h37r67y.appsync-api.ca-central-1.amazonaws.com/graphql",
-  // uri: "http://localhost:3000/", 
+  // uri: "https://localhost:3000/graphql", 
 });
 
 const authLink = setContext(async (_, { headers }) => {
