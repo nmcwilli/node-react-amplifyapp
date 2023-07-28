@@ -22,7 +22,6 @@ import {
   deleteNote as deleteNoteMutation,
 } from "./graphql/mutations";
 
-
 const App = ({ signOut }) => {
   const [notes, setNotes] = useState([]); 
   const [isExpanded, setIsExpanded] = useState(false); // Track whether Notes expanded 
