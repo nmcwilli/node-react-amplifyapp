@@ -131,7 +131,7 @@ const App = ({ signOut }) => {
       <Heading level={1}>Simple Notes</Heading>
       <br />
       <button onClick={toggleExpansion}>
-        {isExpanded ? 'Collapse View' : 'Add new note'}
+        {isExpanded ? 'Stop adding new note' : 'Add new note'}
       </button>
       {isExpanded && (
         <View as="form" margin="3rem 0" onSubmit={createNote}>
@@ -141,7 +141,7 @@ const App = ({ signOut }) => {
                 name="name"
                 placeholder="Note Title"
                 label="Note Name"
-                style={{ width: '100%' }}
+                style={{ width: '100%', textAlign: 'left' }}
                 className="Text-input-name"
                 labelHidden
                 variation="quiet"
@@ -151,7 +151,7 @@ const App = ({ signOut }) => {
                 name="description"
                 placeholder="Note Description"
                 label="Note Description"
-                style={{ flex: 1 }}
+                style={{ flex: 1, textAlign: 'left' }}
                 className="Text-area-note"
                 labelHidden
                 variation="quiet"
