@@ -1,14 +1,36 @@
-# AWS Amplify App Starter
+# AWS Amplify Notes App
 
-This is a project I created as a starting point for AWS Amplify apps. It has user authentication via Cognito and allows users to track and store notes. 
+This is a project I created as a starting point for AWS Amplify apps. It is a Notes App with a React front-end using AWS Amplify that has user authentication (Cognito) and allows users to track and store Notes. 
 
 ## Stack used
 - Front-end - React
 - Back-end - Node/Express (Running in Amplify)
-- API - GraphQL
+- API - GraphQL and REST
 - Storage - S3
 
-### Running the app in dev
+## Reference information
+
+Update Server-side schema after making changes locally: 
+```
+amplify push
+```
+
+Example GraphQL query: 
+```
+query MyQuery { 
+  listNotes(filter: { owner: { eq: "nmcwilli" } }) { 
+    items { 
+      id 
+      image 
+      name 
+      updatedAt 
+      owner 
+    } 
+  } 
+}
+```
+
+### `npm start` Running the app in dev
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.

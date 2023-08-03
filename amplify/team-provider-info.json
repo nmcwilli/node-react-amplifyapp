@@ -19,7 +19,15 @@
         "nodereactamplifyapp": {}
       },
       "storage": {
-        "imagestore": {}
+        "imagestore": {},
+        "Notey3fwml227zgwbd73drt4dk5rjistaging": {
+          "tableName": "Note-y3fwml227zgwbd73drt4dk5rji-staging",
+          "region": "ca-central-1",
+          "arn": "arn:aws:dynamodb:ca-central-1:656674571092:table/Note-y3fwml227zgwbd73drt4dk5rji-staging",
+          "streamArn": "arn:aws:dynamodb:ca-central-1:656674571092:table/Note-y3fwml227zgwbd73drt4dk5rji-staging/stream/2023-07-25T04:00:10.519",
+          "partitionKeyName": "id",
+          "partitionKeyType": "S"
+        }
       }
     }
   }

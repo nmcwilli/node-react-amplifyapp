@@ -62,7 +62,63 @@
       "service": "Cognito"
     }
   },
+  "parameters": {
+    "AMPLIFY_storage_Notey3fwml227zgwbd73drt4dk5rjistaging_arn": {
+      "usedBy": [
+        {
+          "category": "storage",
+          "resourceName": "Notey3fwml227zgwbd73drt4dk5rjistaging"
+        }
+      ]
+    },
+    "AMPLIFY_storage_Notey3fwml227zgwbd73drt4dk5rjistaging_partitionKeyName": {
+      "usedBy": [
+        {
+          "category": "storage",
+          "resourceName": "Notey3fwml227zgwbd73drt4dk5rjistaging"
+        }
+      ]
+    },
+    "AMPLIFY_storage_Notey3fwml227zgwbd73drt4dk5rjistaging_partitionKeyType": {
+      "usedBy": [
+        {
+          "category": "storage",
+          "resourceName": "Notey3fwml227zgwbd73drt4dk5rjistaging"
+        }
+      ]
+    },
+    "AMPLIFY_storage_Notey3fwml227zgwbd73drt4dk5rjistaging_region": {
+      "usedBy": [
+        {
+          "category": "storage",
+          "resourceName": "Notey3fwml227zgwbd73drt4dk5rjistaging"
+        }
+      ]
+    },
+    "AMPLIFY_storage_Notey3fwml227zgwbd73drt4dk5rjistaging_streamArn": {
+      "usedBy": [
+        {
+          "category": "storage",
+          "resourceName": "Notey3fwml227zgwbd73drt4dk5rjistaging"
+        }
+      ]
+    },
+    "AMPLIFY_storage_Notey3fwml227zgwbd73drt4dk5rjistaging_tableName": {
+      "usedBy": [
+        {
+          "category": "storage",
+          "resourceName": "Notey3fwml227zgwbd73drt4dk5rjistaging"
+        }
+      ]
+    }
+  },
   "storage": {
+    "Notey3fwml227zgwbd73drt4dk5rjistaging": {
+      "dependsOn": [],
+      "providerPlugin": "awscloudformation",
+      "service": "DynamoDB",
+      "serviceType": "imported"
+    },
     "imagestore": {
       "dependsOn": [],
       "providerPlugin": "awscloudformation",
