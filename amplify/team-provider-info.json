@@ -9,14 +9,16 @@
       "UnauthRoleName": "amplify-amplifycee8f0d5bc7b4-staging-22900-unauthRole",
       "StackName": "amplify-amplifycee8f0d5bc7b4-staging-22900",
       "StackId": "arn:aws:cloudformation:ca-central-1:656674571092:stack/amplify-amplifycee8f0d5bc7b4-staging-22900/0397c060-2a93-11ee-afad-022154caecb8",
-      "AmplifyAppId": "d2gkklqbtyu835"
+      "AmplifyAppId": "d2gkklqbtyu835",
+      "APIGatewayAuthURL": "https://s3.amazonaws.com/amplify-amplifycee8f0d5bc7b4-staging-22900-deployment/amplify-cfn-templates/api/APIGatewayAuthStack.json"
     },
     "categories": {
       "auth": {
         "nodereactamplifyappf14a8df5": {}
       },
       "api": {
-        "nodereactamplifyapp": {}
+        "nodereactamplifyapp": {},
+        "amplifyrestapi": {}
       },
       "storage": {
         "imagestore": {},
@@ -27,6 +29,16 @@
           "streamArn": "arn:aws:dynamodb:ca-central-1:656674571092:table/Note-y3fwml227zgwbd73drt4dk5rji-staging/stream/2023-07-25T04:00:10.519",
           "partitionKeyName": "id",
           "partitionKeyType": "S"
+        }
+      },
+      "function": {
+        "restnotelambda": {
+          "deploymentBucketName": "amplify-amplifycee8f0d5bc7b4-staging-22900-deployment",
+          "s3Key": "amplify-builds/restnotelambda-6e796f6d327173714d45-build.zip"
+        },
+        "restitemslambda": {
+          "deploymentBucketName": "amplify-amplifycee8f0d5bc7b4-staging-22900-deployment",
+          "s3Key": "amplify-builds/restitemslambda-445843784e4859347462-build.zip"
         }
       }
     }

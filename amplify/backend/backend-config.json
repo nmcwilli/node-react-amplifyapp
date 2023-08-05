@@ -1,5 +1,27 @@
 {
   "api": {
+    "amplifyrestapi": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "restnotelambda"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "restitemslambda"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway"
+    },
     "nodereactamplifyapp": {
       "dependsOn": [
         {
@@ -62,7 +84,79 @@
       "service": "Cognito"
     }
   },
+  "function": {
+    "restitemslambda": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributeEnvMap": {
+            "Arn": "TABLE_ARN",
+            "Name": "TABLE_NAME"
+          },
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "storage",
+          "resourceName": "Notey3fwml227zgwbd73drt4dk5rjistaging"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "restnotelambda": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributeEnvMap": {
+            "Arn": "TABLE_ARN",
+            "Name": "TABLE_NAME"
+          },
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "storage",
+          "resourceName": "Notey3fwml227zgwbd73drt4dk5rjistaging"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  },
   "parameters": {
+    "AMPLIFY_function_restitemslambda_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "restitemslambda"
+        }
+      ]
+    },
+    "AMPLIFY_function_restitemslambda_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "restitemslambda"
+        }
+      ]
+    },
+    "AMPLIFY_function_restnotelambda_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "restnotelambda"
+        }
+      ]
+    },
+    "AMPLIFY_function_restnotelambda_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "restnotelambda"
+        }
+      ]
+    },
     "AMPLIFY_storage_Notey3fwml227zgwbd73drt4dk5rjistaging_arn": {
       "usedBy": [
         {
